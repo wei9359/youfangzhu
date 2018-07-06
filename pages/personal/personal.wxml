@@ -1,0 +1,74 @@
+<!--pages/personal/personal.wxml-->
+<view class="page">
+  <view class="page__bd" style="background-color:#fff;height:110px">
+    <view class="userinfo-avatar">
+      <view wx:if="{{userIfo.userImg==null}}">
+        <open-data type="userAvatarUrl" class="touimage"></open-data>
+      </view>
+      <view wx:elif="{{userIfo.userImg==''}}">
+        <open-data type="userAvatarUrl" class="touimage"></open-data>
+      </view>
+      <view wx:else>
+        <image src="{{userIfo.userImg}}" class="touimage"></image>
+      </view>
+    </view>
+    <view style="position:relative;">
+      <view wx:if="{{userIfo.userName==null}}">
+        <open-data type="userNickName" style="display:flex;justify-content:center;"></open-data>
+      </view>
+      <view wx:elif="{{userIfo.userName==''}}">
+        <open-data type="userNickName" style="display:flex;justify-content:center;"></open-data>
+      </view>
+      <view wx:else>
+        <text style="display:flex;justify-content:center;">{{userIfo.userName}}</text>
+      </view>
+    </view>
+    <view>
+      <view wx:if="{{userIfo.userAddress==null}}">
+        <open-data type="userCity" lang="zh_CN" style="display:flex;justify-content:center;"></open-data>
+      </view>
+      <view wx:elif="{{userIfo.userAddress==''}}">
+        <open-data type="userCity" lang="zh_CN" style="display:flex;justify-content:center;"></open-data>
+      </view>
+      <view wx:else>
+        <text style="display:flex;justify-content:center;">{{userIfo.userAddress}}</text>
+      </view>
+    </view>
+    <view>
+      <view style="position:relative;display:flex;justify-content:center;font-size:11px;color:#CCCCCC">
+        <text bindtap='updateUserIfo'>完善个人资料</text>
+        <image src="../../images/right.png" style="width:30rpx;height:30rpx;"></image>
+      </view>
+    </view>
+  </view>
+  <view class="menu">
+    <view class="menuItem" bindtap='myCollect'>
+      <image src='../../images/hasCollect.png' class="menuImg"></image>
+      <text class="menuText" >我的收藏</text>
+      <image src='../../images/right-black.png' class="menuRight"></image>
+    </view>
+
+    <view class="menuItem">
+      <image src='../../images/moreHouse.png' class="menuImg"></image>
+      <text class="menuText">我的房源</text>
+      <image src='../../images/right-black.png' class="menuRight"></image>
+    </view>
+
+    <view wx:if="{{userIfo.userType==0}}">
+      <view class="menuItem" bindtap='updateUserIfo'>
+        <image src="../../images/changeType.png" class="menuImg"></image>
+        <text class="menuText">成为房东</text>
+        <image src='../../images/right-black.png' class="menuRight"></image>
+      </view>
+    </view>
+    <view wx:if="{{userIfo.userType==1}}">
+      <view class="menuItem" bindtap='addHouseIfo'>
+        <image class="menuImg" src="../../images/changeType.png"></image>
+        <text class="menuText">发布房源</text>
+        <image src='../../images/right-black.png' class="menuRight"></image>
+      </view>
+    </view>
+  </view>
+
+
+</view>

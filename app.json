@@ -1,0 +1,37 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/login/login",
+    "pages/menu/menu",
+    "pages/houseDetail/houseDetail",
+    "pages/regist/regist",
+    "pages/personal/personal",
+    "pages/mycollect/mycollect",
+    "pages/addHouseIfo/addHouseIfo",
+    "pages/myhouse/myhouse"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "小程序",
+    "navigationBarTextStyle":"black",
+    "enablePullDownRefresh":true,
+    "onReachBottomDistance":60
+  },
+  "tabBar": {
+    "list": [{
+      "selectedIconPath": "images/houseChoose.png",
+      "iconPath": "images/houseNotChoose.png",
+      "pagePath": "pages/index/index",
+      "text": "租房"
+     
+    },{
+      "selectedIconPath": "images/personChoose.png",
+      "iconPath": "images/personNotChoose.png",
+      "pagePath": "pages/personal/personal",
+      "text": "个人中心"
+     
+    }]
+  }
+}

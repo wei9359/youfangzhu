@@ -1,0 +1,138 @@
+<!--pages/houseDetail/houseDetail.wxml-->
+<view class="page">
+  <view class="page__bd page__bd_spacing">
+    <view>
+      <image src="{{houseIfo.houseImg}}"></image>
+    </view>
+    <view>
+      <text>{{mztype}}  |  {{houseIfo.houseLocal}}  |{{houseIfo.houseSize}} ㎡|  {{houseIfo.price}} {{fkfs}}</text>
+    </view>
+
+
+    <view class="weui-grids">
+      <block wx:for="{{houseIfo.houseImgListCustom}}" wx:key="*this" wx:for-item="item">
+        <!--<navigator url="" class="weui-grid" hover-class="weui-grid_active">-->
+        <view class="weui-grid">
+          <image class="imageView" src="{{item.houseImgUrl}}" bindtap='previewImg'/> 
+          <view class="weui-grid__label">{{item.houseImgDescribe}}</view>
+        </view>
+        
+      </block>
+    </view>
+    <view class="table">
+      <view class="tr">
+        <view class="th">
+          <view>
+            房屋格局:{{houseIfo.houseLayout}}
+          </view>
+        </view>
+
+        <view class="th">
+          <view>
+            房屋装修： {{houseIfo.housezx}}
+          </view>
+        </view>
+      </view>
+      <view class="tr">
+        <view class="th">
+          <view>
+            房屋楼层:{{houseIfo.houselc}}
+          </view>
+        </view>
+
+        <view class="th" wx:if="{{houseIfo.housecw==0}}">
+          <view>
+            房屋车位：无
+          </view>
+        </view>
+        <view class="th" wx:else>
+          <view>
+            房屋车位：有
+          </view>
+        </view>
+      </view>
+      <view class="tr">
+        <view class="th">
+          <view>
+            看房要求: {{houseIfo.housekf}}
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="">
+      <view class="kind-list__item">
+        <view>
+          <text class="page__title">房屋家具</text>
+        </view>
+        <view class="">
+          <view class="weui-flex">
+            <view class="weui-flex__item" wx:if="{{houseIfo.housePartsCustom.air_conditioner==1}}">
+              <view class="placeholder">{{houseParts[5]}}</view>
+            </view>
+            <view class="weui-flex__item" wx:if="{{houseIfo.housePartsCustom.armoire==1}}">
+              <view class="placeholder">{{houseParts[2]}}</view>
+            </view>
+            <view class="weui-flex__item" wx:if="{{houseIfo.housePartsCustom.balcony==1}}">
+              <view class="placeholder">{{houseParts[15]}}</view>
+            </view>
+            <view class="weui-flex__item" wx:if="{{houseIfo.housePartsCustom.bed==1}}">
+              <view class="placeholder">{{houseParts[1]}}</view>
+            </view>
+          </view>
+          <view class="weui-flex">
+            <view class="weui-flex__item" wx:if="{{houseIfo.housePartsCustom.central_heating==1}}">
+              <view class="placeholder">{{houseParts[8]}}</view>
+            </view>
+            <view class="weui-flex__item" wx:if="{{houseIfo.housePartsCustom.desk_chair==1}}">
+              <view class="placeholder">{{houseParts[6]}}</view>
+            </view>
+            <view class="weui-flex__item" wx:if="{{houseIfo.housePartsCustom.electromagnetic_oven==1}}">
+              <view class="placeholder">{{houseParts[12]}}</view>
+            </view>
+            <view class="weui-flex__item" wx:if="{{houseIfo.housePartsCustom.hotplate==1}}">
+              <view class="placeholder">{{houseParts[10]}}</view>
+            </view>
+          </view>
+
+          <view class="weui-flex">
+            <view class="weui-flex__item" wx:if="{{houseIfo.housePartsCustom.microwave_oven==1}}">
+              <view class="placeholder">{{houseParts[13]}}</view>
+            </view>
+            <view class="weui-flex__item" wx:if="{{houseIfo.housePartsCustom.smoke_machine==1}}">
+              <view class="placeholder">{{houseParts[11]}}</view>
+            </view>
+            <view class="weui-flex__item" wx:if="{{houseIfo.housePartsCustom.sofa==1}}">
+              <view class="placeholder">{{houseParts[3]}}</view>
+            </view>
+            <view class="weui-flex__item" wx:if="{{houseIfo.housePartsCustom.toilet==1}}">
+              <view class="placeholder">{{houseParts[14]}}</view>
+            </view>
+          </view>
+
+          <view class="weui-flex">
+            <view class="weui-flex__item" wx:if="{{houseIfo.housePartsCustom.tv==1}}">
+              <view class="placeholder">{{houseParts[7]}}</view>
+            </view>
+            <view class="weui-flex__item" wx:if="{{houseIfo.housePartsCustom.washing_machine==1}}">
+              <view class="placeholder">{{houseParts[4]}}</view>
+            </view>
+            <view class="weui-flex__item" wx:if="{{houseIfo.housePartsCustom.water_heat==1}}">
+              <view class="placeholder">{{houseParts[9]}}</view>
+            </view>
+            <view class="weui-flex__item" wx:if="{{houseIfo.housePartsCustom.wifi==1}}">
+              <view class="placeholder">{{houseParts[0]}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="block">
+      <view>
+        <image src="{{collectImg}}" class="collectImg" bindtap="collect"></image>
+        <view class="collectText">收藏</view>
+      </view>
+      
+  </view>
+</view>

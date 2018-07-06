@@ -1,0 +1,161 @@
+/**app.wxss**/
+@import 'weui.wxss';
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+} 
+
+page{
+    background-color: #F8F8F8;
+    font-size: 16px;
+    font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+}
+.page__hd {
+    padding: 40px;
+}
+.page__bd {
+    padding-bottom: 40px;
+}
+.page__bd_spacing {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.page__ft{
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.page__title {
+    text-align: left;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.page__desc {
+    margin-top: 5px;
+    color: #888888;
+    text-align: left;
+    font-size: 14px;
+}
+
+.cell__word{
+  color: #999;
+  font-size: 14px;
+}
+
+.table {
+  border: 1px solid #fff;
+  border-right: 0;
+  border-bottom: 0;
+  width: 98%
+}
+.tr {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.th,.td {
+  padding: 10px;
+  border-bottom: 1px solid #fff;
+  border-right: 1px solid #fff;
+  text-align: left;
+  width: 100%;
+}
+.th {
+  font-weight: 400;
+  background-color: #fff;
+}
+/*九宫格图像展示*/
+.imageView {
+  display: block;
+  width: 78px;
+  height: 78px;
+  margin: 0 auto;
+}
+.touimage {
+  /* 头像样式 */
+  margin: 0 auto;  
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  width: 161rpx;
+  height: 161rpx;
+  border-radius: 50%;
+}
+.block{
+  background-color: #fff;
+  position:fixed;
+  bottom: 0px;
+  height: 50px;
+  width: 400px
+}
+.collectImg{
+  height:60rpx;
+  width: 60rpx;
+  position: relative;
+  left: 175px
+
+}
+.collectText{
+  font-size: 11px;
+  position: relative;
+  left: 177px;
+  bottom:10px;
+}
+.menu{
+  margin-top:10px;
+}
+.menuItem{
+  background-color: #CCCCCC;
+  width: 400px;
+  margin-top:20px;
+}
+.menuImg{
+  height:60rpx;
+  width:60rpx;
+  padding-bottom:10px;
+  vertical-align:middle;
+}
+.menuText{
+  font-size: 25px;
+  margin-left: 10px;
+}
+.menuRight{
+  height:60rpx;
+  width:60rpx;
+  padding-bottom:10px;
+  padding-left: 200px;
+  vertical-align:middle;
+}
+.label{
+  display: flex;
+  flex-wrap: wrap;
+}
+.checkBoxGroup{
+  display: flex;
+  flex-wrap: wrap;
+}
+.checkBox{
+  width:110px;
+  height:30px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.addhouse_menu{
+  margin-top:5px;
+}
+.addhouse_menuText{
+  margin-left: 15px;
+}
+.addhouse_menuInputText{
+  margin-left: 15px;
+}
+.addhouse_menuInput{
+  margin-top:1px;
+}

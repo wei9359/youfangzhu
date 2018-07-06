@@ -1,0 +1,41 @@
+<!--pages/myhouse/myhouse.wxml-->
+<swiper indicator-dots="true" autoplay="true" interval="1000" circular="true" indicator-active-color="#6600FF">
+  <block wx:for="{{imgUrls}}" wx:key="*this" wx:item="item">
+    <swiper-item >
+      <image src="{{item}}" style="width:375px;height:240px"/>
+    </swiper-item>
+  </block>
+</swiper>
+
+<view>movable-view区域小于movable-area</view>
+<movable-area style="width:375px;height:300px;background-color:#66CC33">
+
+  <movable-view style="width:100px;height:50px;background-color:#6666CC" x="{{x}}" y="{{y}}" direction="all" inertia="true"  damping="10" out-of-bounds="true">
+
+  </movable-view>
+</movable-area>
+
+<!-- <video id="myVideo" src="http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400" controls="{{false}}" event-model="bubble">
+  <cover-view class="controls">
+    <cover-view class="play" bindtap="play">
+      <cover-image class="img" src="../../images/add.png" />
+    </cover-view>
+    <cover-view class="pause" bindtap="pause">
+      <cover-image class="img" src="../../images/cuo.png" />
+    </cover-view>
+    <cover-view class="time">00:00</cover-view>
+  </cover-view>
+</video> -->
+<view>
+  <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange"> 
+    <view>
+      当前日期：{{date}}
+    </view>
+  </picker>
+</view>
+
+<picker mode="region" bindchange='bindRegionChange'>
+    <view>
+      当前选择：{{region}}
+    </view>
+</picker>

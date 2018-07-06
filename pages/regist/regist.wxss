@@ -1,0 +1,7 @@
+/* pages/regist/regist.wxss */
+.show{
+  display: block
+}
+.hide{
+  display: none
+}

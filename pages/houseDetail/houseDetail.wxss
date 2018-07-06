@@ -1,0 +1,17 @@
+/* pages/houseDetail/houseDetail.wxss */
+.placeholder{
+    margin: 5px;
+    padding: 0 10px;
+    text-align: center;
+    background-color: #F5DEB3;
+    height: 2.3em;
+    line-height: 2.3em;
+    color: #000;
+}
+
+.kind-list__item {
+  margin: 10px 0;
+  background-color: #ffffff;
+  border-radius: 2px;
+  overflow: hidden;
+}
