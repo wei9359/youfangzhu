@@ -48,7 +48,7 @@
       <image src='../../images/right-black.png' class="menuRight"></image>
     </view>
 
-    <view class="menuItem">
+    <view class="menuItem" bindtap='myHouse'>
       <image src='../../images/moreHouse.png' class="menuImg"></image>
       <text class="menuText">我的房源</text>
       <image src='../../images/right-black.png' class="menuRight"></image>

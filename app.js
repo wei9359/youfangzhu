@@ -60,7 +60,7 @@ App({
   },
   globalData: {
     userIfo: null,
-    serverUrl: "http://192.168.0.116:8080/",
+    serverUrl: "http://192.168.0.121:8080/",
     openId:null,
     upload_url: "pawq2zntb.bkt.clouddn.com/"
   }

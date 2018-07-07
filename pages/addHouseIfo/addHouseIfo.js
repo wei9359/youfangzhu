@@ -12,8 +12,10 @@ Page({
     longitude: null,
     //房屋位置
     houseLocal: "",
-    //房屋照片
+    //房屋首页照片
     files: [],
+    //房间照片
+    detailFiles:[],
     //房屋格局
     GJIndex: 0,
     GJList: ["一室一厅", "两室一厅", "三室一厅", "三室两厅", "四室一厅", "四室两厅", "四室三厅", "五室一厅", "五室两厅", "五室三厅"],
@@ -233,10 +235,37 @@ Page({
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function(res) {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+        wechatma.push(res.tempFilePaths[0])
         that.setData({
-          files: that.data.files.concat(res.tempFilePaths)
+          files: wechatma
         });
       }
+    })
+  },
+  chooseDetailImage:function(e){
+    var that = this;
+    var wechatma = [];
+    if(this.data.files.length<=9){
+      wx.chooseImage({
+        sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+        sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+        success: function (res) {
+          // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+          that.uploadOneImg(res.tempFilePaths[0])
+        }
+      })
+    }else{
+      wx.showModal({
+        title: '警告信息',
+        content: '只能添加9张照片',
+      })
+      return
+    } 
+  },
+  previewDetailImage:function(e){
+    wx.previewImage({
+      current: e.currentTarget.id, // 当前显示图片的http链接
+      urls: this.data.detailFiles // 需要预览的图片http链接列表
     })
   },
   previewImage: function(e) {
@@ -267,12 +296,12 @@ Page({
   },
   ZLCChange: function(e) {
     this.setData({
-      ZLCIndex: e.detail.value
+      ZLCIndex: Number(e.detail.value)+1
     })
   },
   FLCChange: function(e) {
     this.setData({
-      FLCIndex: e.detail.value
+      FLCIndex: Number(e.detail.value)+1
     })
   },
   MZTypeChange: function(e) {
@@ -319,22 +348,46 @@ Page({
     })
   },
   ImgUpload: function(e) {
-    var _this = this
-    for (var i = 0; i < this.data.files.length; i++) {
+    var that = this
+    var imageFiles = new Array()
+    var filesLength = this.data.files.length
+    for (var i = 0; i < filesLength; i++) {
       qiniu.upload(this.data.files[i], function(res) {
-        _this.data.files[i] = "http://" + res.imageURL
-        console.log(_this.data.files)
+        imageFiles.push("http://" + res.imageURL)
+          that.setData({
+            files: imageFiles
+          })
+          console.log(that.data.files)
       }, function(error) {
         console.log('error: ' + error);
       }, {
         region: 'NCN',
-        domain: _this.data.upload_url,
-        uptoken: _this.data.uptoken // 由其他程序生成七牛 uptoken
+        domain: that.data.upload_url,
+        uptoken: that.data.uptoken // 由其他程序生成七牛 uptoken
       })
     }
+    
+  },
+  uploadOneImg:function(images){
+    var that = this
+    var image = new Array()
+    qiniu.upload(images, function (res) {
+      image.push("http://" + res.imageURL)
+      that.setData({
+        detailFiles:that.data.detailFiles.concat(image)
+      })
+    }, function (error) {
+      console.log('error: ' + error);
+    }, {
+        region: 'NCN',
+        domain: that.data.upload_url,
+        uptoken: that.data.uptoken // 由其他程序生成七牛 uptoken
+      })
   },
   submit:function(e){
-    console.log(getApp().globalData.userIfo)
+    console.log("hhhhhh1" + this.data.files)
+    console.log("hhhhhh2" + JSON.stringify(this.data.files))
+    
     if(this.data.files.length==0){
       wx.showModal({
         title: '警告信息',
@@ -363,8 +416,8 @@ Page({
       })
       return
     }
+    
     this.ImgUpload()
-    /*
     wx.request({
       url: this.data.serverUrl +'weixin/addHouse.action',
       data:{
@@ -374,7 +427,7 @@ Page({
         houseDescribe: this.data.houseDescribe,
         houseSize:this.data.houseArea,
         houseLocal: this.data.houseLocal,
-        houseImgs:this.data.files,
+        houseImgs: this.data.files[0],
         houseLayout: this.data.GJList[this.data.GJIndex],
         housezx: this.data.ZXList[this.data.ZXIndex],
         houselc: this.data.FLCIndex+"/"+this.data.ZLCIndex,
@@ -388,15 +441,44 @@ Page({
         province: this.data.region[0],
         city:this.data.region[1],
         county:this.data.region[2],
+        detailImages: JSON.stringify(this.data.detailFiles),
         houseParts: JSON.stringify(this.data.housePartsList)
       },
       success:function(res){
-        wx.navigateBack({
-          delta:1
+        wx.reLaunch({
+          url:"../personal/personal"
         })
       }
     })
-    */
+    
+  },
+  imagePut:function(e){
+    return new Promise(function (resolve, reject) {
+      for (var i = 0; i < filesLength; i++) {
+        console.log("i1" + i)
+        console.log("fl1" + filesLength - 1)
+        console.log("1" + i == (filesLength - 1))
+        qiniu.upload(this.data.files[i], function (res) {
+          console.log("i2" + i)
+          console.log("fl" + filesLength - 1)
+          console.log("2" + i == (filesLength - 1))
+          imageFiles.push("http://" + res.imageURL)
+          if (i == (filesLength - 1)) {
+            that.setData({
+              files: imageFiles
+            })
+            that.submit()
+          }
+          
+        }, function (error) {
+          console.log('error: ' + error);
+        }, {
+            region: 'NCN',
+            domain: that.data.upload_url,
+            uptoken: that.data.uptoken // 由其他程序生成七牛 uptoken
+          })
+      }
+    });
   }
 
 })

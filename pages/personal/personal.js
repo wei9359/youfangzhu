@@ -80,6 +80,11 @@ Page({
       url: '../mycollect/mycollect?userID='+this.data.userIfo.userID,
     })
   },
+  myHouse:function(){
+    wx.navigateTo({
+      url: '../myhouse/myhouse?userID=' + this.data.userIfo.userID,
+    })
+  },
   addHouseIfo:function(){
     wx.navigateTo({
       url: "../addHouseIfo/addHouseIfo"

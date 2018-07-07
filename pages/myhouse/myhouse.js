@@ -5,40 +5,38 @@ Page({
    * 页面的初始数据
    */
   data: {
-    imgUrls: [
-      'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-      'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
-      'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
-    ],
-    x:0,
-    y:0,
-    nodes: [{
-      name: 'div',
-      attrs: {
-        class: 'div_class',
-        style: 'line-height: 60px; color: red;'
-      },
-      children: [{
-        type: 'text',
-        text: 'Hello&nbsp;World!'
-      }]
-    }],
-    date: '2016-09-01',
-    region:null
+    userID: null,
+    houseIfoList: null,
+    serverUrl: getApp().globalData.serverUrl
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    var that = this
+    this.setData({
+      userID: options.userID
+    })
+    console.log("userID" + this.data.userID)
+    wx.request({
+      url: this.data.serverUrl + "weixin/myHouse.action",
+      data: {
+        userID: this.data.userID
+      },
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          houseIfoList: res.data.object
+        })
+      }
+    })
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.videoCtx = wx.createVideoContext('myVideo')
   },
 
   /**
@@ -81,27 +79,6 @@ Page({
    */
   onShareAppMessage: function () {
   
-  },
-  play() {
-    this.videoCtx.play()
-  },
-  pause() {
-    this.videoCtx.pause()
-  },
-  tap() {
-    console.log('tap')
-  },
-  bindDateChange: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
-    this.setData({
-      date: e.detail.value
-    })
-  },
-  bindRegionChange: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
-    this.setData({
-      region: e.detail.value
-    })
   }
   
 })
