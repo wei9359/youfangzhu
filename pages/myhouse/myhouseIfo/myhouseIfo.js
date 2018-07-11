@@ -1,38 +1,18 @@
-// pages/mycollect/mycollect.js
+// pages/myhouse/myhouseIfo/myhouseIfo.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-     userID:null,
-     houseIfoList:null,
-     serverUrl:getApp().globalData.serverUrl
-
+  
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
-    var that = this
-    this.setData({
-      userID:options.userID
-    })
-    console.log("userID"+this.data.userID)
-    wx.request({
-      url: this.data.serverUrl + "weixin/getCollection.action",
-      data: {
-        userID: this.data.userID
-      },
-      success: function (res) {
-        console.log(res)
-        that.setData({
-          houseIfoList:res.data.object
-        })
-      }
-    })
+  
   },
 
   /**

@@ -13,7 +13,9 @@ Page({
     houseParts: ["WIFI", "床", "衣柜", "沙发", "洗衣机", "空调", "桌椅", "电视", "暖气", "热水器", "燃气灶", "抽油烟机", "电磁炉", "微波炉", "卫生间","阳台"],
     houseImgList:[],
     collectImg:"../../images/notCollect.png",
-    collectType:0
+    collectType:0,
+    ownerName:null,
+    ownerPhone:null
   },
 
   /**
@@ -36,7 +38,7 @@ Page({
           var mztype
           var fkfs
           var houseImgList = new Array
-          var collectImg
+          var collectImg = "../../images/notCollect.png"
           if(res.data.status=="1" && res.data.object!=null){
             if (res.data.object.mztype == 0) {
               mztype = "整租"
@@ -46,6 +48,13 @@ Page({
                 fkfs = "元/年"
               }
             } else if (res.data.object.mztype == 1) {
+              mztype = "合租"
+              if (res.data.object.zffkfs == 0) {
+                fkfs = "元/月"
+              } else if (res.data.object.zffkfs == 1) {
+                fkfs = "元/年"
+              }
+            } else if (res.data.object.mztype == 2){
               mztype = "卖房"
               if (res.data.object.mffkfs == 0) {
                 fkfs = "整付"
@@ -53,8 +62,8 @@ Page({
                 fkfs = "首付+贷款"
               }
             }
-            for(var i = 0;i<res.data.object.houseImgListCustom.length;i++){
-              houseImgList.push(res.data.object.houseImgListCustom[i].houseImgUrl)
+            for(var i = 0;i<res.data.object.houseImgCustomList.length;i++){
+              houseImgList.push(res.data.object.houseImgCustomList[i].houseImgUrl)
             }
             if(res.data.object.collectType==1){
               collectImg = "../../images/hasCollect.png"
@@ -66,7 +75,9 @@ Page({
               fkfs:fkfs,
               houseImgList:houseImgList,
               collectType:res.data.object.collectType,
-              collectImg:collectImg
+              collectImg:collectImg,
+              ownerName: res.data.object.ownerName,
+              ownerPhone:res.data.object.ownerPhone
             })
 
             
@@ -158,9 +169,25 @@ Page({
           duration: 3000
         });
       }
+    })  
+  },
+  navigate:function(e){
+    wx.openLocation({
+      longitude: this.data.houseIfo.longitude,
+      latitude: this.data.houseIfo.latitude,
+      address:this.data.houseIfo.houseLocal
     })
-    
-    
+  },
+  phone:function(e){
+    console.log(this.data.ownerPhone)
+    wx.makePhoneCall({
+      phoneNumber:this.data.ownerPhone,
+      fail:function(res){
+        wx.showModal({
+          title: '错误信息',
+          content: '拨打失败',
+        })
+      }
+    })
   }
-
 })

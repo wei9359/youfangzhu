@@ -9,7 +9,9 @@
     "pages/personal/personal",
     "pages/mycollect/mycollect",
     "pages/addHouseIfo/addHouseIfo",
-    "pages/myhouse/myhouse"
+    "pages/myhouse/myhouse",
+    "pages/myhouse/myhouseIfo/myhouseIfo",
+    "pages/test/test"
   ],
   "window":{
     "backgroundTextStyle":"light",

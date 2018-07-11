@@ -95,19 +95,6 @@ page{
   height: 50px;
   width: 400px
 }
-.collectImg{
-  height:60rpx;
-  width: 60rpx;
-  position: relative;
-  left: 175px
-
-}
-.collectText{
-  font-size: 11px;
-  position: relative;
-  left: 177px;
-  bottom:10px;
-}
 .menu{
   margin-top:10px;
 }

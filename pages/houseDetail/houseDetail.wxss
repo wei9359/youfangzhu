@@ -15,3 +15,51 @@
   border-radius: 2px;
   overflow: hidden;
 }
+
+.collectImg{
+  height:60rpx;
+  width: 60rpx;
+  position: relative;
+  left: 175px
+
+}
+.collectText{
+  font-size: 13px;
+  position: relative;
+  left: 165px;
+  bottom:5px;
+  
+}
+
+.navigateImg{
+  height:70rpx;
+  width: 70rpx;
+  position: relative;
+  left: 45px
+}
+
+.navigateText{
+  font-size: 13px;
+  position: relative;
+  left: 13px;
+  bottom:5px;
+}
+
+.phoneImg{
+  height:70rpx;
+  width: 70rpx;
+  position: relative;
+  left: 210px
+}
+
+.phoneText{
+  font-size: 13px;
+  position: relative;
+  left: 163px;
+  bottom:5px;
+}
+
+.blockType{
+  position: relative;
+  display: flex;
+}

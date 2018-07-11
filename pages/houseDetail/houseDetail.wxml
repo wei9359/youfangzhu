@@ -10,7 +10,7 @@
 
 
     <view class="weui-grids">
-      <block wx:for="{{houseIfo.houseImgListCustom}}" wx:key="*this" wx:for-item="item">
+      <block wx:for="{{houseIfo.houseImgCustomList}}" wx:key="*this" wx:for-item="item">
         <!--<navigator url="" class="weui-grid" hover-class="weui-grid_active">-->
         <view class="weui-grid">
           <image class="imageView" src="{{item.houseImgUrl}}" bindtap='previewImg'/> 
@@ -129,9 +129,15 @@
     </view>
   </view>
   <view class="block">
-      <view>
+      <view class='blockType'>
         <image src="{{collectImg}}" class="collectImg" bindtap="collect"></image>
-        <view class="collectText">收藏</view>
+        <image src="../../images/navigate.png" class="navigateImg" bindtap="navigate"></image>
+        <image src="../../images/phone2.png" class="phoneImg" bindtap='phone'></image>
+      </view>
+      <view class='blockType'>
+        <view class="collectText">给朕收好</view>
+        <view class='navigateText'>朕要亲临</view>
+        <view class='phoneText'>联系房东</view>
       </view>
       
   </view>

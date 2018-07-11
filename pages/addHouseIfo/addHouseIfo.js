@@ -36,7 +36,7 @@ Page({
     FLCList: null,
     //租房还是售房
     MZTypeIndex: 0,
-    MZTypeList: ["租房", "售房"],
+    MZTypeList: ["整租","合租","售房"],
     //租房付款方式
     ZFIndex: 0,
     ZFList: ["月付", "年付"],
@@ -117,7 +117,8 @@ Page({
     houseDescribe:null,
     serverUrl:getApp().globalData.serverUrl,
     upload_url: getApp().globalData.upload_url,
-    uptoken:null
+    uptoken:null,
+    imgUploadSuccess:0
 
   },
 
@@ -355,9 +356,11 @@ Page({
       qiniu.upload(this.data.files[i], function(res) {
         imageFiles.push("http://" + res.imageURL)
           that.setData({
-            files: imageFiles
+            files: imageFiles,
+            imgUploadSuccess:1
           })
-          console.log(that.data.files)
+          console.log("hhhhhhh3333"+that.data.files)
+          that.request()
       }, function(error) {
         console.log('error: ' + error);
       }, {
@@ -418,67 +421,40 @@ Page({
     }
     
     this.ImgUpload()
-    wx.request({
-      url: this.data.serverUrl +'weixin/addHouse.action',
-      data:{
-        userID:getApp().globalData.userIfo.userID,
-        price:this.data.housePrice,
-        mztype: this.data.MZTypeIndex,
-        houseDescribe: this.data.houseDescribe,
-        houseSize:this.data.houseArea,
-        houseLocal: this.data.houseLocal,
-        houseImgs: this.data.files[0],
-        houseLayout: this.data.GJList[this.data.GJIndex],
-        housezx: this.data.ZXList[this.data.ZXIndex],
-        houselc: this.data.FLCIndex+"/"+this.data.ZLCIndex,
-        housecw: this.data.CWIndex,
-        housekf: this.data.KFList[this.data.KFIndex],
-        zffkfs: this.data.ZFIndex,
-        mffkfs: this.data.MFIndex,
-        longitude: this.data.longitude,
-        latitude: this.data.latitude,
-        BDType: this.data.BDIndex,
-        province: this.data.region[0],
-        city:this.data.region[1],
-        county:this.data.region[2],
-        detailImages: JSON.stringify(this.data.detailFiles),
-        houseParts: JSON.stringify(this.data.housePartsList)
-      },
-      success:function(res){
-        wx.reLaunch({
-          url:"../personal/personal"
-        })
-      }
-    })
-    
-  },
-  imagePut:function(e){
-    return new Promise(function (resolve, reject) {
-      for (var i = 0; i < filesLength; i++) {
-        console.log("i1" + i)
-        console.log("fl1" + filesLength - 1)
-        console.log("1" + i == (filesLength - 1))
-        qiniu.upload(this.data.files[i], function (res) {
-          console.log("i2" + i)
-          console.log("fl" + filesLength - 1)
-          console.log("2" + i == (filesLength - 1))
-          imageFiles.push("http://" + res.imageURL)
-          if (i == (filesLength - 1)) {
-            that.setData({
-              files: imageFiles
-            })
-            that.submit()
-          }
-          
-        }, function (error) {
-          console.log('error: ' + error);
-        }, {
-            region: 'NCN',
-            domain: that.data.upload_url,
-            uptoken: that.data.uptoken // 由其他程序生成七牛 uptoken
+    },
+    request:function(e){
+      wx.request({
+        url: this.data.serverUrl + 'weixin/addHouse.action',
+        data: {
+          userID: getApp().globalData.userIfo.userID,
+          price: this.data.housePrice,
+          mztype: this.data.MZTypeIndex,
+          houseDescribe: this.data.houseDescribe,
+          houseSize: this.data.houseArea,
+          houseLocal: this.data.houseLocal,
+          houseImgs: this.data.files[0],
+          houseLayout: this.data.GJList[this.data.GJIndex],
+          housezx: this.data.ZXList[this.data.ZXIndex],
+          houselc: this.data.FLCIndex + "/" + this.data.ZLCIndex,
+          housecw: this.data.CWIndex,
+          housekf: this.data.KFList[this.data.KFIndex],
+          zffkfs: this.data.ZFIndex,
+          mffkfs: this.data.MFIndex,
+          longitude: this.data.longitude,
+          latitude: this.data.latitude,
+          BDType: this.data.BDIndex,
+          province: this.data.region[0],
+          city: this.data.region[1],
+          county: this.data.region[2],
+          detailImages: JSON.stringify(this.data.detailFiles),
+          houseParts: JSON.stringify(this.data.housePartsList)
+        },
+        success: function (res) {
+          wx.reLaunch({
+            url: "../personal/personal"
           })
-      }
-    });
-  }
+        }
+      })
+    }
 
 })

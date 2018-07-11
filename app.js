@@ -60,8 +60,9 @@ App({
   },
   globalData: {
     userIfo: null,
-    serverUrl: "http://192.168.0.121:8080/",
+    serverUrl: "http://yfz.tunnel.echomod.cn/",
     openId:null,
-    upload_url: "pawq2zntb.bkt.clouddn.com/"
+    upload_url: "pawq2zntb.bkt.clouddn.com/",
+    qqMapJdkKey: "3RXBZ-KJ6KW - ZG2RA - ODSIU - ASWZQ - NYB6Z"
   }
 })
