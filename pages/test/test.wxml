@@ -1,16 +1,34 @@
 <!--pages/test/test.wxml-->
-<dl class="menu"> 
-  <block wx:for="{{reportData}}" wx:key="idMenu" wx:for-item="menuItem" wx:for-index="idMenu"> 
-   <dt data-index="{{idMenu}}" bindtap="tapMainMenu">
+<dl class="menu">
+  <block wx:for="{{reportData}}" wx:key="idMenu" wx:for-item="menuItem" wx:for-index="idMenu">
+    <dt data-index="{{idMenu}}" bindtap="tapMainMenu">
       <view>{{menuItem.reportType}}</view>
       <image src="{{menuItem.imageSrc}}" class="dtmenu"></image>
-   </dt> 
-   <dd class="{{subMenuDisplay[idMenu]}}"> 
-    <ul wx:for="{{menuItem.chilItem}}" wx:key="chilItem.ID" wx:for-item="chilItem" wx:for-index="idChil"> 
-     <li bindtap="tapSubMenu" data-index="{{idMenu}}-{{idChil}}">{{chilItem.Name}}</li> 
-    </ul> 
-   </dd> 
-  </block> 
-</dl> 
+    </dt>
+    <dd class="{{subMenuDisplay[idMenu]}}">
+      <ul wx:for="{{menuItem.chilItem}}" wx:key="chilItem.ID" wx:for-item="chilItem" wx:for-index="idChil">
+        <li bindtap="filter" data-index="{{idMenu}}-{{idChil}}">{{chilItem.Name}}</li>
+      </ul>
+    </dd>
+  </block>
+</dl>
 
 <view style='z-index:2'>hahhaahha</view>
+
+<view class='animation' animation="{{animationData}}" style="height:100%;position:fixed;visibility:{{show ? 'visible':'hidden'}}">
+  <view class='animation-content'>
+      <view class="weui-cells__title">房屋格局</view>
+    <!--房屋格局-->
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_select">
+        <view class="weui-cell__bd">
+          <picker bindchange="GJChange" value="{{GJIndex}}" range="{{GJList}}">
+            <view class="weui-select">{{GJList[GJIndex]}}</view>
+          </picker>
+        </view>
+      </view>
+    </view>
+
+
+  </view>
+</view>

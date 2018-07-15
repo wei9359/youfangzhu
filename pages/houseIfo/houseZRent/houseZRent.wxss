@@ -1,37 +1,38 @@
-/* pages/test/test.wxss */
-/**DropDownMenu**/ 
-  
-/*总菜单容器*/ 
-  
+/* pages/houseIfo/houseHRent/houseHRent.wxss */
 .menu { 
  display: block; 
- height: 28px; 
+ height: 30px; 
  position: relative; 
+ margin-left: 15px
 } 
   
 /*一级菜单*/ 
   
 .menu dt { 
  font-size: 13px; 
+ font-weight:900;
  float: left; 
  /*hack*/ 
- width: 24.7%; 
- height: 20px; 
+ width: 30%; 
+ height: 30px; 
  border-right: 1px solid #d2d2d2; 
- border-bottom: 1px solid #d2d2d2; 
+ border-bottom: 0px solid #d2d2d2; 
  text-align: center; 
- background-color: #f4f4f4; 
+ background-color: #33CCFF; 
  color: #5a5a5a; 
  line-height: 20px; 
  z-index: 9; 
  display: flex;
+ padding-left:65px;
+ padding-top: 9px;
+ margin-bottom: 20px;
 } 
 
 .dtmenu{
   display: flex;
   width:20px;
   height: 20px;
-  float: right;
+  padding-right: 0px
  
 }
   
@@ -40,7 +41,7 @@
 .menu dd { 
  position: absolute; 
  width: 100%; 
- margin-top: 30px; 
+ margin-top: 40px; 
  left: 0; 
  z-index: 99; 
 } 
@@ -70,6 +71,20 @@
  visibility: hidden; 
 } 
 
+.searchImg{
+  width:40px;
+  height: 40px;
+}
+.searchInput{
+  width:325px;
+  height:30px;
+  border-style:inset;
+  border-color: #33CCFF;
+}
+.placeholder{
+  font-size: 13px
+}
+
 .animation{
    background: rgba(0,0,0,0.2); 
   /* background: #000; */
@@ -86,4 +101,10 @@
   background: #fff;
   position: absolute;
   right: 0;
+}
+
+.regionImg{
+  width:20px;
+  height: 20px;
+  padding-top: 4px;
 }

@@ -2,33 +2,17 @@
 <view class='page'>
   <view class="page__bd">
     <view class="weui-panel weui-panel_access">
-      <view>
+      <view style='margin-left:15px'>
         <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
           <view style='position:relative;display:flex;'>
             <view class="picker">
-              当前选择：{{region[1]}}
+              当前位置：{{region[1]}}
             </view>
             <image src="../../images/down.png" class="regionImg"></image>
           </view>
         </picker>
       </view>
-      <view style='position:relative;display:flex;margin-top:10px'>
-        <input placeholder='输入地点(为您自动筛选指定范围内的房源,默认三公里)' placeholder-class='placeholder' class="searchInput" bindblur='targetAreaInput'></input>
-        <image src='../../images/search.png' class="searchImg" bindtap='searchNearHouse'></image>
-      </view>
-      <dl class="menu">
-        <block wx:for="{{reportData}}" wx:key="idMenu" wx:for-item="menuItem" wx:for-index="idMenu">
-          <dt data-index="{{idMenu}}" bindtap="tapMainMenu">
-            <view>{{menuItem.reportType}}</view>
-            <image src="{{menuItem.imageSrc}}" class="dtmenu"></image>
-          </dt>
-          <dd class="{{subMenuDisplay[idMenu]}}">
-            <ul wx:for="{{menuItem.chilItem}}" wx:key="chilItem.ID" wx:for-item="chilItem" wx:for-index="idChil">
-              <li bindtap="tapSubMenu" data-index="{{idMenu}}-{{idChil}}">{{chilItem.Name}}</li>
-            </ul>
-          </dd>
-        </block>
-      </dl>
+      
       <view class="weui-panel__hd">房源信息</view>
       <view class="weui-panel__bd" wx:if="{{houseList.length!=0}}">
 
@@ -51,8 +35,9 @@
                   <view class="weui-media-box__info__meta">售房</view>
                 </view>
                 <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{item.houseLayout}}</view>
-                <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{item.housezx}}</view>
-                <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{item.housekf}}</view>
+                <view class="weui-media-box__info__meta weui-media-box__info__meta_extra" wx:if="{{item.zffkfs==0}}">{{item.price}}/月</view>
+                <view class="weui-media-box__info__meta weui-media-box__info__meta_extra" wx:elif="{{item.zffkfs==1}}">{{item.price}}/年</view>
+                <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{item.houselc}}楼</view>
               </view>
             </view>
 

@@ -1,12 +1,13 @@
 //app.js
-
+var QQMapWX = require('/libs/qqmap-wx-jssdk.js');
 App({
+  
   onLaunch: function () {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
-
+    var that = this
     // 登录
     wx.login({
       success:function(res) {
@@ -57,12 +58,50 @@ App({
         }
       }
     })
+    
+  },
+  getLocal:function(e){
+    var that = this
+    return new Promise(function (resolve, reject){
+      var qqmapsdk = that.globalData.qqmapsdk
+      var longitude
+      var latitude
+      wx.getLocation({
+        success: function (res) {
+            longitude = res.longitude
+            latitude = res.latitude
+            qqmapsdk.reverseGeocoder({
+              lacation: {
+                latitude: latitude,
+                longitude: longitude
+              },
+              success: function (res) {
+                that.globalData.province = res.result.address_component.province
+                that.globalData.city = res.result.address_component.city
+                that.globalData.district = res.result.address_component.district
+                console.log(that.globalData.province)
+                resolve(res);
+              },
+              fail: function (res) {
+                that.globalData.city = "定位失败"
+                reject(res)
+              }
+            })
+        }
+      })
+    })
   },
   globalData: {
     userIfo: null,
     serverUrl: "http://yfz.tunnel.echomod.cn/",
     openId:null,
     upload_url: "pawq2zntb.bkt.clouddn.com/",
-    qqMapJdkKey: "3RXBZ-KJ6KW - ZG2RA - ODSIU - ASWZQ - NYB6Z"
+    qqMapJdkKey: "3RXBZ-KJ6KW-ZG2RA-ODSIU-ASWZQ-NYB6Z",
+    province:null, //省
+    city:null,     //市
+    district:null, //区
+    qqmapsdk : new QQMapWX({
+      key: '3RXBZ-KJ6KW-ZG2RA-ODSIU-ASWZQ-NYB6Z'
+    })             //腾讯地图sdk
   }
 })

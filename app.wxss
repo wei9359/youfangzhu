@@ -146,3 +146,15 @@ page{
 .addhouse_menuInput{
   margin-top:1px;
 }
+
+.checkButton1{
+  left:60px;
+  position: absolute;
+  bottom: 20px;
+}
+
+.checkButton2{
+  left:180px;
+  position: absolute;
+  bottom: 20px;
+}

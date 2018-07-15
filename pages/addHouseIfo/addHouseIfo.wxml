@@ -77,7 +77,7 @@
     <view class="weui-cells__title">房屋描述</view>
     <view class="weui-cells weui-cells_after-title" style='position:relative;display:flex'>
       <view class="addhouse_menuInput">
-        <textarea maxlength="200" class="addhouse_menuInputText" placeholder="请输入房屋最吸引人的特点:" bindblur='houseDescribeInput' value="{{houseDescribe}}"/>
+        <textarea maxlength="200" class="addhouse_menuInputText" placeholder="请输入房屋最吸引人的特点:" bindblur='houseDescribeInput' value="{{houseDescribe}}" />
       </view>
     </view>
     <!--租房还是售房-->
@@ -120,12 +120,12 @@
     <!--价格-->
     <view class="weui-cells__title">房屋价格</view>
     <view class="weui-cells weui-cells_after-title" style='position:relative;display:flex'>
-      
+
       <view class="addhouse_menu">
         <view class="addhouse_menuText">价格:</view>
       </view>
       <view class="addhouse_menuInput">
-        <input class="addhouse_menuInputText" placeholder="请输入价格" bindblur='housePriceInput' value="{{housePrice}}" type="number"/>
+        <input class="addhouse_menuInputText" placeholder="请输入价格" bindblur='housePriceInput' value="{{housePrice}}" type="number" />
       </view>
     </view>
     <view class="weui-cells__title">房屋格局</view>
@@ -142,12 +142,12 @@
     <!--房屋面积-->
     <view class="weui-cells__title">房屋面积</view>
     <view class="weui-cells weui-cells_after-title" style='position:relative;display:flex'>
-      
+
       <view class="addhouse_menu">
         <view class="addhouse_menuText">面积:</view>
       </view>
       <view class="addhouse_menuInput">
-        <input class="addhouse_menuInputText" placeholder="请输入面积" bindblur='houseAreaInput' value="{{houseArea}}" type="number"/>
+        <input class="addhouse_menuInputText" placeholder="请输入面积" bindblur='houseAreaInput' value="{{houseArea}}" type="number" />
       </view>
     </view>
     <!--房屋车位-->
@@ -231,5 +231,6 @@
     <view class="page__bd page__bd_spacing">
       <button class="weui-btn" type="primary" bindtap='submit'>提交</button>
     </view>
+    
   </view>
 </view>

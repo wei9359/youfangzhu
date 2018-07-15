@@ -1,0 +1,149 @@
+<!--pages/menu/menu.wxml-->
+<view class='page'>
+  <view class="page__bd">
+    <!--筛选条件-->
+    <view class='animation' animation="{{animationData}}" style="height:100%;position:fixed;visibility:{{show ? 'visible':'hidden'}}">
+      <view class='animation-content'>
+        <view class="weui-cells__title">房屋格局</view>
+        <!--房屋格局-->
+        <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell weui-cell_select">
+            <view class="weui-cell__bd">
+              <picker bindchange="GJChange" value="{{GJIndex}}" range="{{GJList}}">
+                <view class="weui-select">{{GJList[GJIndex]}}</view>
+              </picker>
+            </view>
+          </view>
+        </view>
+        <view class="weui-cells__title">看房要求</view>
+        <!--房屋格局-->
+        <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell weui-cell_select">
+            <view class="weui-cell__bd">
+              <picker bindchange="KFChange" value="{{KFIndex}}" range="{{KFList}}">
+                <view class="weui-select">{{KFList[KFIndex]}}</view>
+              </picker>
+            </view>
+          </view>
+        </view>
+        <view class="weui-cells__title">房屋车位</view>
+        <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell weui-cell_select">
+            <view class="weui-cell__bd">
+              <picker bindchange="CWChange" value="{{CWIndex}}" range="{{CWList}}">
+                <view class="weui-select">{{CWList[CWIndex]}}</view>
+              </picker>
+            </view>
+          </view>
+        </view>
+        <!--装修情况-->
+        <!-- <view class="weui-cells__title">装修情况</view>
+        <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell weui-cell_select">
+            <view class="weui-cell__bd">
+              <picker bindchange="ZXChange" value="{{ZXIndex}}" range="{{ZXList}}">
+                <view class="weui-select">{{ZXList[ZXIndex]}}</view>
+              </picker>
+            </view>
+          </view>
+        </view> -->
+        <view class="weui-cells__title">租房付款方式</view>
+        <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell weui-cell_select">
+            <view class="weui-cell__bd">
+              <picker bindchange="ZFChange" value="{{ZFIndex}}" range="{{ZFList}}">
+                <view class="weui-select">{{ZFList[ZFIndex]}}</view>
+              </picker>
+            </view>
+          </view>
+        </view>
+        <view class="weui-cells__title">房屋类型</view>
+        <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell weui-cell_select">
+            <view class="weui-cell__bd">
+              <picker bindchange="LXChange" value="{{LXIndex}}" range="{{LXList}}">
+                <view class="weui-select">{{LXList[LXIndex]}}</view>
+              </picker>
+            </view>
+          </view>
+        </view>
+        <view class="weui-cells__title">租房价格</view>
+        <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell weui-cell_select">
+            <view class="weui-cell__bd">
+              <picker bindchange="ZFPriceChange" value="{{ZFPriceIndex}}" range="{{ZFPriceList}}">
+                <view class="weui-select">{{ZFPriceList[ZFPriceIndex]}}</view>
+              </picker>
+            </view>
+          </view>
+        </view>
+        <button class="weui-btn mini-btn checkButton1" type="warn" size="mini" bindtap='cancel'>取消</button>
+        <button class="weui-btn mini-btn checkButton2" type="primary" size="mini" bindtap='ensure'>确定</button>
+      </view>
+    </view>
+
+    <view class="weui-panel weui-panel_access">
+      <view style='margin-left:15px'>
+        <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+          <view style='position:relative;display:flex;'>
+            <view class="picker">
+              当前位置：{{region[1]}}
+            </view>
+            <image src="/images/down.png" class="regionImg"></image>
+          </view>
+        </picker>
+      </view>
+      <view style='position:relative;display:flex;margin-top:10px;margin-left:15px'>
+        <input placeholder='输入地点(为您自动筛选指定范围内的房源,默认三公里)' placeholder-class='placeholder' class="searchInput" bindblur='targetAreaInput'></input>
+        <image src='/images/search.png' class="searchImg" bindtap='searchNearHouse'></image>
+      </view>
+      <dl class="menu">
+        <block wx:for="{{reportData}}" wx:key="idMenu" wx:for-item="menuItem" wx:for-index="idMenu">
+          <dt data-index="{{idMenu}}" bindtap="{{menuItem.bindtap}}">
+            <view>{{menuItem.reportType}}</view>
+            <image src="{{menuItem.imageSrc}}" class="dtmenu"></image>
+          </dt>
+          <dd class="{{subMenuDisplay[idMenu]}}">
+            <ul wx:for="{{menuItem.chilItem}}" wx:key="chilItem.ID" wx:for-item="chilItem" wx:for-index="idChil">
+              <li bindtap="tapSubMenu" data-index="{{idMenu}}-{{idChil}}">{{chilItem.Name}}</li>
+            </ul>
+          </dd>
+        </block>
+      </dl>
+
+
+      <view class="weui-panel__hd">房源信息</view>
+      <view class="weui-panel__bd" wx:if="{{houseList.length!=0}}">
+        <view wx:for="{{houseList}}" wx:for-item="item" wx:key="*this">
+          <navigator url="/pages/houseDetail/houseDetail?houseID={{item.houseID}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+            <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+              <image class="weui-media-box__thumb" src="{{item.houseImg}}" />
+            </view>
+            <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+              <view class="weui-media-box__title">{{item.houseLocal}}</view>
+              <view class="weui-media-box__desc">{{item.houseDescribe}}</view>
+              <view class="weui-media-box__info">
+                <view wx:if="{{item.housetype==0}}">
+                  <view class="weui-media-box__info__meta">普通</view>
+                </view>
+                <view wx:if="{{item.housetype==1}}">
+                  <view class="weui-media-box__info__meta">公寓</view>
+                </view>
+                <view wx:if="{{item.housetype==2}}">
+                  <view class="weui-media-box__info__meta">商住</view>
+                </view>
+                <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{item.houseLayout}}</view>
+                <view class="weui-media-box__info__meta weui-media-box__info__meta_extra" wx:if="{{item.zffkfs==0}}">{{item.price}}/月</view>
+                <view class="weui-media-box__info__meta weui-media-box__info__meta_extra" wx:elif="{{item.zffkfs==1}}">{{item.price}}/年</view>
+                <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{item.houselc}}楼</view>
+              </view>
+            </view>
+          </navigator>
+        </view>
+      </view>
+      <view wx:else style="height:600px">
+        暂时没有符合条件的房屋!
+      </view>
+    </view>
+  </view>
+</view>
