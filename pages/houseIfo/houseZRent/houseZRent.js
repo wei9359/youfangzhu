@@ -258,8 +258,8 @@ Page({
     ZFList: ["全部", "月付", "年付"],
     LXIndex: 0,
     LXList: ["全部", "普通住宅", "公寓", "商住房"],
-    HZFpriceIndex: 0,
-    HZFpriceList: ["全部", "1万以下", "10000-20000", "20000-50000", "50000-100000", "10万以上"],
+    ZFPriceIndex: 0,
+    ZFPriceList: ["全部", "1万以下", "10000-20000", "20000-50000", "50000-100000", "10万以上"],
     show: false,
     animationData: null,
     userProvince: getApp().globalData.province,
@@ -267,7 +267,11 @@ Page({
     userDistrict: getApp().globalData.district,
     region: [],
     qqmapsdk: null,
-    area: 3000
+    area: 100000,
+    beginRow: 1,
+    pageSize: null,
+    hasMorePage: true,
+    targetArea: null
   },
 
   /**
@@ -276,6 +280,12 @@ Page({
   onLoad: function(options) {
     var that = this
     var region = new Array()
+    var beginRow = this.data.beginRow
+    var hasMorePage = this.data.hasMorePage
+    var pageSize = getApp().globalData.pageSize
+    wx.showLoading({
+      title: '正在加载中',
+    })
     getApp().getLocal().then(function(res) {
       region.push(getApp().globalData.province)
       region.push(getApp().globalData.city)
@@ -285,22 +295,61 @@ Page({
         userCity: getApp().globalData.city,
         userDistrict: getApp().globalData.district,
         region: region,
-        qqmapsdk: getApp().globalData.qqmapsdk
+        qqmapsdk: getApp().globalData.qqmapsdk,
+        targetArea:region[1]+region[2]
       })
-      wx.request({
-        url: that.data.serverUrl + 'weixin/getHouseByMzType.action',
-        data: {
-          province: getApp().globalData.province,
-          city: getApp().globalData.city,
-          county: getApp().globalData.district,
-          mzType: 0
-        },
-        success: function(res) {
+      that.data.qqmapsdk.geocoder({
+        address: that.data.targetArea,
+        success: function (res) {
           console.log(res)
-          that.setData({
-            houseList: res.data.object
+          if (res.result.level < 2) {
+            wx.showModal({
+              title: '错误信息',
+              content: '查无此地点',
+            })
+            return
+          }
+
+          wx.showLoading({
+            title: '正在加载中',
+          })
+          wx.request({
+            url: that.data.serverUrl + 'weixin/getHouseIfoByCondition.action',
+            data: {
+              province: that.data.userProvince,
+              city: that.data.userCity,
+              county: that.data.userDistrict,
+              longitude: res.result.location.lng,
+              latitude: res.result.location.lat,
+              area: that.data.area,
+              mztype: 0,
+              beginRow: 0,
+              houseLayout: that.data.GJList[that.data.GJIndex],
+              housekf: that.data.KFList[that.data.KFIndex],
+              housecw: that.data.CWIndex,
+              housezx: that.data.ZXList[that.data.ZXIndex],
+              zffkfs: that.data.ZFIndex,
+              houseType: that.data.LXIndex,
+              ZFPrice: that.data.ZFPriceIndex,
+            },
+            success: function (res) {
+              console.log(res)
+              if (res.data.object.length < pageSize) {
+                hasMorePage = false
+              }
+              beginRow = beginRow + 1
+              that.setData({
+                houseList: res.data.object,
+                beginRow: beginRow,
+                hasMorePage: hasMorePage
+              })
+            },
+            complete: function (res) {
+              wx.hideLoading()
+            }
           })
         }
+
       })
     })
 
@@ -310,7 +359,6 @@ Page({
       subMenuHighLight: initSubMenuHighLight //二级 
     })
     this.loadDropDownMenu()
-
   },
 
   /**
@@ -345,14 +393,28 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-
+    this.getList()
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function() {
-
+    var beginRow = this.data.beginRow
+    var hasMorePage = this.data.hasMorePage
+    var pageSize = this.data.pageSize
+    var houseList = this.data.houseList
+    var that = this
+    console.log("下啦到底啦")
+    console.log(hasMorePage)
+    if (hasMorePage) {
+      this.getList()
+    } else {
+      wx.showModal({
+        title: '信息',
+        content: '没有更多数据',
+      })
+    }
   },
 
   /**
@@ -484,49 +546,8 @@ Page({
   searchNearHouse: function(e) {
     var that = this
     console.log(this.data.targetArea)
-    this.data.qqmapsdk.geocoder({
-      address: this.data.targetArea,
-      success: function(res) {
-        console.log(res)
-        if (res.result.level < 3) {
-          wx.showModal({
-            title: '错误信息',
-            content: '查无此地点',
-          })
-          return
-        }
-        wx.request({
-          url: that.data.serverUrl + 'weixin/getHouseListInArea.action',
-          data: {
-            longitude: res.result.location.lng,
-            latitude: res.result.location.lat,
-            city: that.data.region[1],
-            district: that.data.region[2],
-            area: that.data.area,
-            mztype: 0,
-            houseLayout: that.data.GJList[that.data.GJIndex],
-            housekf: that.data.KFList[that.data.KFIndex],
-            housecw: that.data.CWIndex,
-            //housezx: that.data.ZXIndex,
-            zffkfs: that.data.ZFIndex,
-            housetype: that.data.LXIndex
-          },
-          success: function(res) {
-            console.log(res)
-            that.setData({
-              houseList: res.data.object
-            })
-          }
-        })
-      },
-      fail: function(res) {
-        console.log(res)
-        wx.showModal({
-          title: '错误信息',
-          content: '查无此地点',
-        })
-      }
-    })
+    that.getList()
+      
   },
   filter: function(e) { //点击筛选事件
     var animation = wx.createAnimation({ //创建动画
@@ -620,25 +641,8 @@ Page({
       ZFPriceIndex: filterList[6]
     })
     this.shouhui()
-    wx.request({
-      url: this.data.serverUrl + 'weixin/getHouseIfoByCondition.action',
-      data: {
-        houseLayout: this.data.GJList[this.data.GJIndex],
-        housekf: this.data.KFList[this.data.KFIndex],
-        housecw: this.data.CWIndex,
-        housezx: this.data.ZXList[this.data.ZXIndex],
-        zffkfs: this.data.ZFIndex,
-        houseType: this.data.LXIndex,
-        ZFPrice: this.data.ZFPriceIndex,
-        mztype: 0
-      },
-      success: function(res) {
-        console.log(res)
-        that.setData({
-          houseList: res.data.object
-        })
-      }
-    })
+    this.getList()
+   
   },
   shouhui: function(e) {
     var animation = wx.createAnimation({ //创建动画
@@ -667,8 +671,76 @@ Page({
     })
   },
   bindRegionChange: function(e) {
+    var region = new Array()
+    region = e.detail.value
     this.setData({
-      region: e.detail.value
+      region: region,
+      userProvince: region[0],
+      userCity: region[1],
+      userDistrict: region[2]
+    })
+    this.getList()
+
+  },
+  getList: function(e) {
+    var that = this
+    var beginRow = 0
+    var hasMorePage = true
+    var pageSize = getApp().globalData.pageSize
+    this.data.qqmapsdk.geocoder({
+      address: this.data.targetArea,
+      success: function(res) {
+        console.log(res)
+        if (res.result.level < 2) {
+          wx.showModal({
+            title: '错误信息',
+            content: '查无此地点',
+          })
+          return
+        }
+
+          wx.showLoading({
+            title: '正在加载中',
+          })
+          wx.request({
+            url: that.data.serverUrl + 'weixin/getHouseIfoByCondition.action',
+            data: {
+              province: that.data.userProvince,
+              city: that.data.userCity,
+              county: that.data.userDistrict,
+              longitude: res.result.location.lng,
+              latitude: res.result.location.lat,
+              area:that.data.area,
+              mztype: 0,
+              beginRow: 0,
+              houseLayout: that.data.GJList[that.data.GJIndex],
+              housekf: that.data.KFList[that.data.KFIndex],
+              housecw: that.data.CWIndex,
+              housezx: that.data.ZXList[that.data.ZXIndex],
+              zffkfs: that.data.ZFIndex,
+              houseType: that.data.LXIndex,
+              ZFPrice: that.data.ZFPriceIndex,
+            },
+            success: function (res) {
+              console.log(res)
+              var houseList = new Array()
+              if (res.data.object.length < pageSize) {
+                hasMorePage = false
+              }
+              beginRow = beginRow + 1
+              houseList = that.data.houseList.concat(res.data.object)
+              that.setData({
+                houseList: houseList,
+                beginRow: beginRow,
+                hasMorePage: hasMorePage
+              })
+            },
+            complete: function(res) {
+              wx.hideLoading()
+            }
+          })
+        }
+      
     })
   }
 

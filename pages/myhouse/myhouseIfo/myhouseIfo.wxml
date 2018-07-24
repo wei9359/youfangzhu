@@ -130,8 +130,15 @@
   </view>
   <view class="block">
       <view class='blockType'>
-        <image src="{{closeImg}}" class="closeImg" bindtap="close" disable='{{closeDisable}}'></image>
-        <image src="{{openImg}}" class="openImg" bindtap="open" disable='{{openDisable}}'></image>
+        <view wx:if="{{useType==1}}">
+          <image src="{{closeImg}}" class="closeImg" bindtap="close"></image>
+          <image src="{{openImg}}" class="openImg"></image>
+        </view>
+        <view wx:elif="{{useType==0}}">
+          <image src="{{closeImg}}" class="closeImg"></image>
+          <image src="{{openImg}}" class="openImg" bindtap="open"></image>
+          
+        </view>
       </view>
       <view class='blockType'>
         <view class="closeText">下架</view>

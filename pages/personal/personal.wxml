@@ -65,7 +65,7 @@
       <view class="menuItem" bindtap='addHouseIfo'>
         <image class="menuImg" src="../../images/changeType.png"></image>
         <text class="menuText">发布房源</text>
-        <image src='../../images/right-black.png' class="menuRight"></image>
+        <image src='../../images/addHouse.png' class="menuRight"></image>
       </view>
     </view>
   </view>

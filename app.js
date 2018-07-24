@@ -93,7 +93,9 @@ App({
   },
   globalData: {
     userIfo: null,
-    serverUrl: "http://yfz.tunnel.echomod.cn/",
+    //serverUrl: "http://yfz.tunnel.echomod.cn/",
+    //serverUrl:"https://www.haofangyisou.top/",
+    serverUrl:"http://127.0.0.1/",
     openId:null,
     upload_url: "pawq2zntb.bkt.clouddn.com/",
     qqMapJdkKey: "3RXBZ-KJ6KW-ZG2RA-ODSIU-ASWZQ-NYB6Z",
@@ -102,6 +104,7 @@ App({
     district:null, //区
     qqmapsdk : new QQMapWX({
       key: '3RXBZ-KJ6KW-ZG2RA-ODSIU-ASWZQ-NYB6Z'
-    })             //腾讯地图sdk
+    }),//腾讯地图sdk
+    pageSize:5
   }
 })

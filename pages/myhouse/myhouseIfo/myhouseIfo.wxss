@@ -32,8 +32,8 @@
 }
 
 .openImg{
-  height:70rpx;
-  width: 70rpx;
+  height:60rpx;
+  width: 60rpx;
   position: relative;
   left: 225px
 }

@@ -14,10 +14,11 @@ Page({
     houseImgList: [],
     ownerName: null,
     ownerPhone: null,
-    openImg:"/images/cantopen.png",
-    closeImg:"/images/close.png",
+    openImg:"/images/hasOpen.png",
+    closeImg:"/images/notClose.png",
     closeDisable:true,
     openDisable:"disable",
+    useType:null
   },
 
   /**
@@ -25,6 +26,8 @@ Page({
    */
   onLoad: function (options) {
     console.log(options.houseID)
+    var closeImg
+    var openImg
     this.setData({
       houseID: options.houseID
     })
@@ -40,7 +43,6 @@ Page({
         var mztype
         var fkfs
         var houseImgList = new Array
-        var collectImg = "/images/notCollect.png"
         if (res.data.status == "1" && res.data.object != null) {
           if (res.data.object.mztype == 0) {
             mztype = "整租"
@@ -67,8 +69,12 @@ Page({
           for (var i = 0; i < res.data.object.houseImgCustomList.length; i++) {
             houseImgList.push(res.data.object.houseImgCustomList[i].houseImgUrl)
           }
-          if (res.data.object.collectType == 1) {
-            collectImg = "/images/hasCollect.png"
+          if(res.data.object.useType==1){
+            closeImg = "/images/notClose.png"
+            openImg = "/images/hasOpen.png"
+          }else{
+            closeImg = "/images/hasClose.png"
+            openImg = "/images/notOpen.png"
           }
 
           _this.setData({
@@ -77,9 +83,11 @@ Page({
             fkfs: fkfs,
             houseImgList: houseImgList,
             collectType: res.data.object.collectType,
-            collectImg: collectImg,
             ownerName: res.data.object.ownerName,
-            ownerPhone: res.data.object.ownerPhone
+            ownerPhone: res.data.object.ownerPhone,
+            useType:res.data.object.useType,
+            closeImg:closeImg,
+            openImg:openImg
           })
 
 
@@ -143,9 +151,35 @@ Page({
     })
   },
   close:function(e){
-    console.log("close")
+    var that = this
+    wx.request({
+      url: this.data.serverUrl+'weixin/closeHouse.action',
+      data:{
+        houseID:this.data.houseID
+      },
+      success:function(res){
+        that.setData({
+          useType:0,
+          closeImg: "/images/hasClose.png",
+          openImg: "/images/notOpen.png"
+        })
+      }
+    })
   },
   open:function(e){
-    console.log("open")
+    var that = this
+    wx.request({
+      url: this.data.serverUrl+'weixin/openHouse.action',
+      data: {
+        houseID: this.data.houseID
+      },
+      success:function(res){
+        that.setData({
+          useType: 1,
+          closeImg: "/images/notClose.png",
+          openImg: "/images/hasOpen.png"
+        })
+      }
+    })
   }
 })

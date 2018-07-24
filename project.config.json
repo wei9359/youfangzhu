@@ -38,7 +38,7 @@
 				{
 					"id": 0,
 					"name": "单页编译",
-					"pathName": "pages/myhouse/myhouseIfo/myhouseIfo",
+					"pathName": "pages/houseIfo/houseHRent/houseHRent",
 					"query": ""
 				}
 			]
